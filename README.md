@@ -16,3 +16,15 @@ is the second guest, and what is localhost:5672 is for?
 Terdapat bagian `amqp://guest:guest@localhost:5672` pada `main.rs` yang digunakan sebagai alamat koneksi ke Rabbitmq. String tersebut memiliki format `amqp://username:password@host:port`. Kata guest pertama merupakan username yang digunakan untuk mengakses Rabbitmq, sedangkan guest kedua adalah password untuk autentikasi. Localhost menunjukkan bahwa Rabbitmq dijalankan secara lokal di komputer sendiri, dan 5672 adalah port standar yang digunakan oleh Rabbitmq untuk menerima koneksi AMQP. 
 
 Jadi, secara keseluruhan, dugaan awal saya, bagian kode pada aplikasi subscriber ini mencoba terhubung ke Rabbitmq yang berjalan di komputer lokal melalui port 5672, menggunakan akun default dengan username dan password guest. Koneksi ini diperlukan agar aplikasi dapat mendengarkan pesan dari queue bernama user_created dan memprosesnya menggunakan handler yang telah didefinisikan.
+
+## Message Broker dengan RabbitMQ
+**Simulation slow subscriber**
+
+<img src="image/image_1.png">
+
+Pada gambar di atas, saya telah mengaktifkan simulasi slow subscriber dengan meng-uncomment `thread::sleep(ten_millis);` di dalam main.rs. Kemudian, saya menjalankan Publisher beberapa kali dengan cepat menggunakan perintah cargo run. Akibatnya, grafik pertama (Queued messages) pada RabbitMQ menunjukkan adanya antrian pesan yang masuk, namun belum sempat dikonsumsi oleh Subscriber secara langsung.
+
+Hal ini terjadi karena Publisher mengirimkan pesan lebih cepat daripada kemampuan Subscriber untuk memprosesnya. Oleh karena itu, total jumlah pesan dalam antrian meningkat menjadi 36 (dapat dilihat pada bagian "Unacked"). Angka ini menunjukkan ada 36 pesan yang sedang menunggu untuk dikonsumsi oleh Subscriber secara bertahap.
+
+<br>
+
