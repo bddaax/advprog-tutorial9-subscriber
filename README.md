@@ -37,3 +37,15 @@ Hal ini terjadi karena Publisher mengirimkan pesan lebih cepat daripada kemampua
 Pada skenario *One Publisher and Three Subscribers*, saya menjalankan satu Publisher dan tiga Subscriber secara paralel. Tanpa melakukan perubahan pada kode program, hasil yang diperoleh sangat berbeda dibandingkan saat hanya ada satu Subscriber. Saat Publisher mengirimkan pesan, RabbitMQ secara otomatis mendistribusikan pesan-pesan tersebut ke beberapa Subscriber yang aktif. Berbeda dari Simulation slow subscriber, pada skenario ini tidak terjadi penumpukan pesan dalam antrian (*queued messages*) pada RabbitMQ. Hal ini dapat diamati dari grafik pertama pada dashboard RabbitMQ yang menunjukkan bahwa nilai Ready, Unacked, dan Total kembali ke nol dengan cepat.
 
 Grafik pada bagian *Queued messages* menunjukkan bahwa semua pesan segera didistribusikan dan dikonsumsi oleh Subscriber secara efisien. Ini menunjukkan bahwa penambahan jumlah Subscriber dapat meningkatkan kecepatan pemrosesan pesan dan mengurangi kemungkinan penumpukan antrean. Mekanisme ini mencerminkan prinsip sistem *event-driven*, di mana Publisher hanya bertugas mengirimkan pesan ke message broker (RabbitMQ), dan broker akan mengelola distribusi pesan ke Subscriber yang tersedia. Dengan demikian, perilaku sistem dapat berubah hanya dengan menambah jumlah Subscriber atau menyesuaikan konfigurasi broker, tanpa perlu mengubah kode program itu sendiri.
+
+
+## Bonus
+**Simulation slow subscriber**
+
+<img src="image/image_4.png">
+
+**One publisher and three subscribers**
+
+<img src="image/image_5.png">
+
+<img src="image/image_6.png">
